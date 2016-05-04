@@ -1,70 +1,82 @@
 #!/usr/bin/env python
+# Setting up twitter API conection requiren oauth authentication
 import oauth2 as oauth
 import urllib2 as urllib
 import json
 from csv import DictReader
 import myKeys # Personal keys
 
-api_key = myKeys.api_key
-api_secret = myKeys.api_secret
-access_token_key = myKeys.access_token_key
-access_token_secret = myKeys.access_token_secret
+# Import API keys from separate file
+apiKey = myKeys.apiKey
+apiSecret = myKeys.apiSecret
+accessTokenKey = myKeys.accessTokenKey
+accessTokenSecret = myKeys.accessTokenSecret
 
 # Create oauth tokens and signature
-oauth_token    = oauth.Token(key=access_token_key, secret=access_token_secret)
-oauth_consumer = oauth.Consumer(key=api_key, secret=api_secret)
-signature_method_hmac_sha1 = oauth.SignatureMethod_HMAC_SHA1()
+oauthToken    = oauth.Token(key=accessTokenKey, secret=accessTokenSecret)
+oauthConsumer = oauth.Consumer(key=apiKey, secret=apiSecret)
+signatureMethod = oauth.SignatureMethod_HMAC_SHA1()
 
 # Create req handler
-http_method = "GET"
-http_handler  = urllib.HTTPHandler(debuglevel=0)
-https_handler = urllib.HTTPSHandler(debuglevel=0)
+httpMethod   = 'GET'
+httpHandler  = urllib.HTTPHandler(debuglevel=0)
+httpsHandler = urllib.HTTPSHandler(debuglevel=0)
 def twitterreq(url, method, parameters):
-    req = oauth.Request.from_consumer_and_token(oauth_consumer,
-                                             token=oauth_token,
-                                             http_method=http_method,
-                                             http_url=url,
-                                             parameters=parameters)
-    req.sign_request(signature_method_hmac_sha1, oauth_consumer, oauth_token)
+    ''''Request handler for twitter API'''
+    req = oauth.Request.from_consumer_and_token(oauthConsumer,
+                                                token=oauthToken,
+                                                http_method=httpMethod,
+                                                http_url=url,
+                                                parameters=parameters)
+    req.sign_request(signatureMethod, oauthConsumer, oauthToken)
     headers = req.to_header()
-    if http_method == "POST":
-      encoded_post_data = req.to_postdata()
+    if httpMethod == 'POST':
+      encodedPostData = req.to_postdata()
     else:
-        encoded_post_data = None
+        encodedPostData = None
         url = req.to_url()
     opener = urllib.OpenerDirector()
-    opener.add_handler(http_handler)
-    opener.add_handler(https_handler)
-    response = opener.open(url, encoded_post_data)
+    opener.add_handler(httpHandler)
+    opener.add_handler(httpsHandler)
+    response = opener.open(url, encodedPostData)
     return response
 
 def fetch(term):
     if term:
-        url = "https://stream.twitter.com/1.1/statuses/filter.json?language=en&track=" + term
+        url = 'https://stream.twitter.com/1.1/statuses/filter.json?language=en&track=' + term
     else:
-        url = "https://stream.twitter.com/1.1/statuses/sample.json"
-    parameters = []
+        url = 'https://stream.twitter.com/1.1/statuses/sample.json'
+    parameters = [] # FEATURE: Could ask for specific parameters from API
     response = twitterreq(url, "GET", parameters)
     for line in response:
         yield line
 
 # Emotional processing
-cols = ['anger', 'anticipation', 'disgust', 'fear',
-        'joy', 'negative', 'positive', 'sadness',
-        'surprise', 'trust']
-dictFile  = 'dict.csv'
+cols = ['anger',
+        'anticipation',
+        'disgust',
+        'fear',
+        'joy',
+        'negative',
+        'positive',
+        'sadness',
+        'surprise',
+        'trust']
+dictFile  = 'static/dict.csv'
 mainDict = {}
 
+# Read dictionary from csv
 with open(dictFile) as csvFile:
         reader = DictReader(csvFile)
         for row in reader:
             mainDict[row['Word']] = [int(row[i]) for i in cols]
 
-# Scoring function
 def score(data):
+    '''Score tweet by lexical analysis'''
     global mainDict
     try:
         tweet = json.loads(data)
+        # FEATURE: change replace for regex
         line = tweet[u'text'].replace('.','').replace(',','').replace(';','').replace(':','').replace('\t',' ').replace('\n',' ')
         words = line.split(' ')
         tweetScore = [0] * 10
@@ -74,60 +86,49 @@ def score(data):
                     tweetScore[i] += mainDict[word][i]
         if tweetScore:
             return tweetScore
-    except KeyError: # If tweet is empty, continue.
-        pass
-    except ValueError: # JSON could come empty too.
-        pass
-    except:
+    except: # If there is any error while reading the json, skip
         pass
 
 
-# Set this variable to "threading", "eventlet" or "gevent" to test the
-# different async modes, or leave it set to None for the application to choose
-# the best option based on available packages.
-async_mode = None
-
-if async_mode is None:
+# Setting variable asyncMode
+asyncMode = None
+if asyncMode is None:
     try:
         import eventlet
-        async_mode = 'eventlet'
+        asyncMode = 'eventlet'
     except ImportError:
         pass
-
-    if async_mode is None:
+    if asyncMode is None:
         try:
             from gevent import monkey
-            async_mode = 'gevent'
+            asyncMode = 'gevent'
         except ImportError:
             pass
-
-    if async_mode is None:
-        async_mode = 'threading'
-
-    print('async_mode is ' + async_mode)
+    if asyncMode is None:
+        asyncMode = 'threading'
+    print('asyncMode is ' + asyncMode)
 
 # monkey patching is necessary because this application uses a background
 # thread
-if async_mode == 'eventlet':
+if asyncMode == 'eventlet':
     import eventlet
     eventlet.monkey_patch()
-elif async_mode == 'gevent':
+elif asyncMode == 'gevent':
     from gevent import monkey
     monkey.patch_all()
 
+# Start flask app
 from flask import Flask, render_template, session, request
 from flask_socketio import SocketIO, emit, disconnect
 from threading import Thread
 
-
-# Flask app
 app = Flask(__name__)
-app.config['SECRET_KEY'] = myKeys.secret_key
-socketio = SocketIO(app, async_mode=async_mode)
+app.config['SECRET_KEY'] = myKeys.secretKey
+socketio = SocketIO(app, async_mode=asyncMode)
 streamThread = None
 term = ''
 
-def background_thread():
+def backgroundThread():
     '''Constantly emiting vectors'''
     global term
     try:
@@ -144,8 +145,7 @@ def background_thread():
 def index():
     global streamThread
     if streamThread is None:
-    #     streamThread = eventlet.greenthread.spawn(stream)
-        streamThread = Thread(target=background_thread)
+        streamThread = Thread(target=backgroundThread)
         streamThread.daemon = True
         streamThread.start()
     return render_template('index.html', name=index)
@@ -160,10 +160,9 @@ def threadStream(word):
 def connect():
     emit('status', {'data': 'Connected'})
 
-@socketio.on('disconnect', namespace='/test')
+@socketio.on('disconnect')
 def test_disconnect():
     print('Client disconnected', request.sid)
 
 if __name__ == "__main__":
-    # socketio.run(app, debug=True)
     socketio.run(app)
