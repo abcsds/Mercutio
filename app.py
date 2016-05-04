@@ -1,11 +1,8 @@
-from flask import Flask, Response, request, render_template
-from flask_socketio import SocketIO, emit
+#!/usr/bin/env python
 import oauth2 as oauth
 import urllib2 as urllib
 import json
 from csv import DictReader
-import eventlet
-eventlet.monkey_patch()
 import myKeys # Personal keys
 
 api_key = myKeys.api_key
@@ -84,49 +81,88 @@ def score(data):
     except:
         pass
 
+
+# Set this variable to "threading", "eventlet" or "gevent" to test the
+# different async modes, or leave it set to None for the application to choose
+# the best option based on available packages.
+async_mode = None
+
+if async_mode is None:
+    try:
+        import eventlet
+        async_mode = 'eventlet'
+    except ImportError:
+        pass
+
+    if async_mode is None:
+        try:
+            from gevent import monkey
+            async_mode = 'gevent'
+        except ImportError:
+            pass
+
+    if async_mode is None:
+        async_mode = 'threading'
+
+    print('async_mode is ' + async_mode)
+
+# monkey patching is necessary because this application uses a background
+# thread
+if async_mode == 'eventlet':
+    import eventlet
+    eventlet.monkey_patch()
+elif async_mode == 'gevent':
+    from gevent import monkey
+    monkey.patch_all()
+
+from flask import Flask, render_template, session, request
+from flask_socketio import SocketIO, emit, disconnect
+from threading import Thread
+
+
 # Flask app
 app = Flask(__name__)
 app.config['SECRET_KEY'] = myKeys.secret_key
-socketio = SocketIO(app)
+socketio = SocketIO(app, async_mode=async_mode)
 streamThread = None
-threadFlag = False
+term = ''
+
+def background_thread():
+    '''Constantly emiting vectors'''
+    global term
+    try:
+        for line in fetch(term):
+            vector = score(line)
+            if vector == [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]:
+                continue
+            socketio.emit('vector', vector, namespace='/', broadcast=True)
+    except:
+        print "ERROR: Stream stopped"
+        raise
 
 @app.route("/")
 def index():
+    global streamThread
+    if streamThread is None:
+    #     streamThread = eventlet.greenthread.spawn(stream)
+        streamThread = Thread(target=background_thread)
+        streamThread.daemon = True
+        streamThread.start()
     return render_template('index.html', name=index)
 
-@socketio.on('term')
-def threadStream(term):
-    global streamThread, threadFlag
-    if not threadFlag:
-        threadFlag = True
-        streamThread = eventlet.greenthread.spawn(stream, term, request)
-    else:
-        emit('error', 'Too many connections')
+@socketio.on('term') # FEATURE: authentication can be added here
+def threadStream(word):
+    '''Change the term being looked up'''
+    global term
+    term = word[u'data']
 
-def stream(term, req):
-    with app.test_request_context():
-        request = req
-        try:
-            for line in fetch(term[u'data']):
-                vector = score(line)
-                if vector == [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]:
-                    continue
-                socketio.emit('vector', vector)
-        except:
-            print "ERROR: Stream stopped"
-            raise
+@socketio.on('connect')
+def connect():
+    emit('status', {'data': 'Connected'})
 
-@socketio.on('disconnect')
-def disconnect():
-    try:
-        global streamThread, threadFlag
-        print('Client disconnected, killing stream')
-        eventlet.greenthread.kill(streamThread)
-        threadFlag = False
-        print('Stream killed')
-    except AttributeError:
-        pass
+@socketio.on('disconnect', namespace='/test')
+def test_disconnect():
+    print('Client disconnected', request.sid)
 
 if __name__ == "__main__":
     # socketio.run(app, debug=True)

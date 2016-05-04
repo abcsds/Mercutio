@@ -3,13 +3,12 @@ window.onload = function(){
   var socket = io.connect('http://' + document.domain + ':' + location.port);
 
   socket.on('connect', function() {
-      socket.emit('test', {data: 'I\'m connected!'});
       console.log("DEBUG: Conected to server socket");
   });
 
   connect = document.getElementById("connect")
   connect.onclick = function () {
-    console.log('DEBUG: Clicked connect button');
+    console.log('DEBUG: Clicked connect button, emitting term');
     socket.emit('term', {data: ''});
   }
 
@@ -21,10 +20,6 @@ window.onload = function(){
 
   socket.on('vector', function(data) {
     console.log('Received a vector: ' + data);
-  });
-
-  socket.on('test', function(data) {
-    console.log('Testing: '+data);
   });
 
   socket.on('error', function(data) {
