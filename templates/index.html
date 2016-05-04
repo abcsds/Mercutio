@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Example</title>
+    <script type="text/javascript" src="http://cdn.tonejs.org/latest/Tone.min.js"></script>
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/socket.io/1.3.6/socket.io.min.js"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='main.js') }}"></script>
+  </head>
+  <body>
+    <div style="width:auto;">
+        <p>
+          Hello World
+        </p>
+        <button type="button" name="monoTrigger" id="monoTrigger">Mono</button>
+        <button type="button" name="polyTrigger" id="polyTrigger">Poli</button>
+        <button type="button" name="test" id="test">test</button>
+        <button type="button" name="connect" id="connect">connect</button>
+        <button type="button" name="disconnect" id="disconnect">disconnect</button>
+    </div>
+  </body>
+</html>
