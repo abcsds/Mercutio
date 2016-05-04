@@ -136,6 +136,8 @@ def backgroundThread():
             vector = score(line)
             if vector == [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]:
                 continue
+            if vector == None:
+                continue
             socketio.emit('vector', vector, namespace='/', broadcast=True)
     except:
         print "ERROR: Stream stopped"
