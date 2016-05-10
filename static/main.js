@@ -6,15 +6,24 @@ window.onload = function(){
 
   var sampler = new Tone.Sampler({
     "Key" : "./static/samples/key.wav",
+    "Beep" : "./static/samples/beep.wav",
+    "a" : "./static/samples/a.mp3",
+    "b" : "./static/samples/b.mp3",
+    "c" : "./static/samples/c.mp3",
+    "d" : "./static/samples/d.mp3",
+    "e" : "./static/samples/e.mp3",
+    "f" : "./static/samples/f.mp3",
+    "g" : "./static/samples/g.mp3",
   }).toMaster();
 
   socket.on('connect', function() {
       console.log("DEBUG: Conected to server socket");
   });
 
-  termForm = document.getElementById("termForm")
-  termForm.onsubmit = function () {
-    term = document.getElementsById("termData").value;
+  termTrigger = document.getElementById("termTrigger");
+  termData = document.getElementById("termData");
+  termTrigger.onclick = function () {
+    term = termData.value;
     console.log('DEBUG: Clicked connect button, emitting term: ' + term );
     socket.emit('term', {data: term});
   }
@@ -23,9 +32,25 @@ window.onload = function(){
     var sum = data.reduce(function(previousValue, currentValue, currentIndex, array) {
       return previousValue + currentValue;
     });
-    if (sum >= 10) {
-        sampler.triggerAttack("Key");
-    }
+    // ['anger',
+    //   'anticipation',
+    //   'disgust',
+    //   'fear',
+    //   'joy',
+    //   'negative',
+    //   'positive',
+    //   'sadness',
+    //   'surprise',
+    //   'trust']
+    if (sum >= 20) { sampler.triggerAttack("Key"); }
+    if (data[1] >= 3) { sampler.triggerAttack("a"); }
+    if (data[2] >= 3) { sampler.triggerAttack("b"); }
+    if (data[3] >= 3) { sampler.triggerAttack("c"); }
+    if (data[4] >= 3) { sampler.triggerAttack("d"); }
+    if (data[5] >= 3) { sampler.triggerAttack("e"); }
+    if (data[8] >= 3) { sampler.triggerAttack("f"); }
+    if (data[9] >= 3) { sampler.triggerAttack("g"); }
+    if (data[10] >= 1) { sampler.triggerAttack("Beep"); }
     console.log('Received a vector: ' + data + ' ' + sum);
   });
 

@@ -8,14 +8,9 @@
     <script type="text/javascript" src="{{ url_for('static', filename='main.js') }}"></script>
   </head>
   <body>
-    <div style="width:auto;">
-        <button type="button" name="monoTrigger" id="monoTrigger">Mono</button>
-        <button type="button" name="polyTrigger" id="polyTrigger">Poli</button>
-        <button type="button" name="sampleTrigger" id="sampleTrigger">Sample</button>
-        <form id="termForm" method="POST" action='#'>
-          <input type="text" name="termData" id="termData" placeholder="Write a word to hear it's twitter">
-          <input type="submit" value="Search">
-        </form>
+    <div class="page-wrapper">
+        <input type="text" name="termData" id="termData" placeholder="Write a word to hear it's twitter stream">
+        <button type="button" name="termTrigger" id="termTrigger">Change term</button>
     </div>
   </body>
 </html>
