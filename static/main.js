@@ -7,13 +7,52 @@ window.onload = function(){
   var sampler = new Tone.Sampler({
     "Key" : "./static/samples/key.wav",
     "Beep" : "./static/samples/beep.wav",
-    "a" : "./static/samples/a.mp3",
-    "b" : "./static/samples/b.mp3",
-    "c" : "./static/samples/c.mp3",
-    "d" : "./static/samples/d.mp3",
-    "e" : "./static/samples/e.mp3",
-    "f" : "./static/samples/f.mp3",
-    "g" : "./static/samples/g.mp3",
+    a : { // Acentuation
+      1 : "./static/samples/reggae/a01.wav",
+      2 : "./static/samples/reggae/a02.wav",
+      3 : "./static/samples/reggae/a03.wav",
+      4 : "./static/samples/reggae/a04.wav",
+      5 : "./static/samples/reggae/a05.wav",
+      6 : "./static/samples/reggae/a06.wav",
+    },
+    b : { // Bass
+      1 : "./static/samples/reggae/b01.wav",
+      2 : "./static/samples/reggae/b02.wav",
+      3 : "./static/samples/reggae/b03.wav",
+      4 : "./static/samples/reggae/b04.wav",
+      5 : "./static/samples/reggae/b05.wav",
+      6 : "./static/samples/reggae/b06.wav",
+      7 : "./static/samples/reggae/b07.wav",
+      8 : "./static/samples/reggae/b08.wav",
+    },
+    c : { // Winds
+      1 : "./static/samples/reggae/c01.wav",
+      2 : "./static/samples/reggae/c02.wav",
+      3 : "./static/samples/reggae/c03.wav",
+      4 : "./static/samples/reggae/c04.wav",
+      5 : "./static/samples/reggae/c05.wav",
+      6 : "./static/samples/reggae/c06.wav",
+      7 : "./static/samples/reggae/c07.wav",
+      8 : "./static/samples/reggae/c08.wav",
+      9 : "./static/samples/reggae/c09.wav",
+      10 : "./static/samples/reggae/c10.wav",
+      11 : "./static/samples/reggae/c11.wav",
+    },
+    d : { // Guitar
+      1 : "./static/samples/reggae/d01.wav",
+      2 : "./static/samples/reggae/d02.wav",
+      3 : "./static/samples/reggae/d03.wav",
+      4 : "./static/samples/reggae/d04.wav",
+      5 : "./static/samples/reggae/d05.wav",
+    },
+    // Natalia
+    // "a" : "./static/samples/a.mp3",
+    // "b" : "./static/samples/b.mp3",
+    // "c" : "./static/samples/c.mp3",
+    // "d" : "./static/samples/d.mp3",
+    // "e" : "./static/samples/e.mp3",
+    // "f" : "./static/samples/f.mp3",
+    // "g" : "./static/samples/g.mp3",
   }).toMaster();
 
   socket.on('connect', function() {
@@ -32,25 +71,43 @@ window.onload = function(){
     var sum = data.reduce(function(previousValue, currentValue, currentIndex, array) {
       return previousValue + currentValue;
     });
-    // ['anger',
+    // [ 'anger',
+    if (data[1] >= 4) { sampler.triggerAttack("a.1"); }
+    else if (data[1] >= 3) { sampler.triggerAttack("c.3"); }
+    else if (data[1] >= 2) { sampler.triggerAttack("b.1"); }
     //   'anticipation',
+    if (data[2] >= 4) { sampler.triggerAttack("c.1"); }
+    else if (data[2] >= 3) { sampler.triggerAttack("c.4"); }
+    else if (data[2] >= 2) { sampler.triggerAttack("b.2"); }
     //   'disgust',
+    if (data[3] >= 4) { sampler.triggerAttack("a.2"); }
+    else if (data[3] >= 3) { sampler.triggerAttack("c.5"); }
+    else if (data[3] >= 2) { sampler.triggerAttack("b.3"); }
     //   'fear',
+    if (data[4] >= 4) { sampler.triggerAttack("a.3"); }
+    else if (data[4] >= 3) { sampler.triggerAttack("c.6"); }
+    else if (data[4] >= 2) { sampler.triggerAttack("b.4"); }
     //   'joy',
+    if (data[5] >= 4) { sampler.triggerAttack("a.4"); }
+    else if (data[5] >= 3) { sampler.triggerAttack("c.7"); }
+    else if (data[5] >= 2) { sampler.triggerAttack("b.5"); }
     //   'negative',
     //   'positive',
     //   'sadness',
+    if (data[8] >= 4) { sampler.triggerAttack("a.5"); }
+    else if (data[8] >= 3) { sampler.triggerAttack("c.8"); }
+    else if (data[8] >= 2) { sampler.triggerAttack("b.6"); }
     //   'surprise',
+    if (data[9] >= 4) { sampler.triggerAttack("c.2"); }
+    else if (data[9] >= 3) { sampler.triggerAttack("c.9"); }
+    else if (data[9] >= 2) { sampler.triggerAttack("b.7"); }
     //   'trust']
+    if (data[10] >= 4) { sampler.triggerAttack("a.6"); }
+    else if (data[10] >= 3) { sampler.triggerAttack("c.10"); }
+    else if (data[10] >= 2) { sampler.triggerAttack("b.8"); }
+
+    // Intensity
     if (sum >= 20) { sampler.triggerAttack("Key"); }
-    if (data[1] >= 3) { sampler.triggerAttack("a"); }
-    if (data[2] >= 3) { sampler.triggerAttack("b"); }
-    if (data[3] >= 3) { sampler.triggerAttack("c"); }
-    if (data[4] >= 3) { sampler.triggerAttack("d"); }
-    if (data[5] >= 3) { sampler.triggerAttack("e"); }
-    if (data[8] >= 3) { sampler.triggerAttack("f"); }
-    if (data[9] >= 3) { sampler.triggerAttack("g"); }
-    if (data[10] >= 1) { sampler.triggerAttack("Beep"); }
     console.log('Received a vector: ' + data + ' ' + sum);
   });
 
