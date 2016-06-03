@@ -3,14 +3,95 @@
   <head>
     <meta charset="utf-8">
     <title>Example</title>
+    <!-- Tone.js -->
     <script type="text/javascript" src="http://cdn.tonejs.org/latest/Tone.min.js"></script>
+    <!-- Socket.io -->
     <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/socket.io/1.3.6/socket.io.min.js"></script>
+    <!-- D3.js -->
+    <script type="text/javascript" src="https://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='radial.js') }}" charset="utf-8"></script>
     <script type="text/javascript" src="{{ url_for('static', filename='main.js') }}"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" media="screen" charset="utf-8">
   </head>
   <body>
     <div class="page-wrapper">
-        <input type="text" name="termData" id="termData" placeholder="Write a word to hear it's twitter stream">
-        <button type="button" name="termTrigger" id="termTrigger">Change term</button>
-    </div>
+
+      <div class="header">
+        <h1>
+          Mercutio
+          <small>Listen to emotions on twitter</small>
+        </h1>
+        <p>
+          This is a live stream from twitter. It's being analized through an
+          algorithm that exctracts emotions from every tweet and converts it to
+          sound. What you are now hearing is a real time representation of the
+          emotions on twitter. A simple vizualization is included to help
+          understand what you are hearing to, but we sugest you close your eyes
+          and listen to the emotions all over the world.
+        </p>
+      </div>
+
+      <div id="viz">
+
+      </div>
+
+      <!-- <div class="search">
+        <input type="text" name="termData" id="termData">
+        <span class="highlight"></span>
+        <span class="bar"></span>
+        <label>Write a word to hear it's twitter stream</label>
+      </div> -->
+
+      <div class="checks">
+        <div class="anger">
+          <input id="anger" type="checkbox" name="anger" value="anger" checked>
+          <label for="anger">Anger</label>
+        </div>
+
+        <div class="anticipation">
+          <input id="anticipation" type="checkbox" name="anticipation" value="anticipation" checked>
+          <label for="anticipation">Anticipation</label>
+        </div>
+
+        <div class="disgust">
+          <input id="disgust" type="checkbox" name="disgust" value="disgust" checked>
+          <label for="disgust">Disgust</label>
+        </div>
+
+        <div class="fear">
+          <input id="fear" type="checkbox" name="fear" value="fear" checked>
+          <label for="fear">Fear</label>
+        </div>
+
+        <div class="joy">
+          <input id="joy" type="checkbox" name="joy" value="joy" checked>
+          <label for="joy">Joy</label>
+        </div>
+
+        <div class="sadness">
+          <input id="sadness" type="checkbox" name="sadness" value="sadness" checked>
+          <label for="sadness">Sadness</label>
+        </div>
+
+        <div class="surprise">
+          <input id="surprise" type="checkbox" name="surprise" value="surprise" checked>
+          <label for="surprise">Surprise</label>
+        </div>
+
+        <div class="trust">
+          <input id="trust" type="checkbox" name="trust" value="trust" checked>
+          <label for="trust">Trust</label>
+        </div>
+
+      </div><!-- .checks  -->
+      <div class="footer">
+        <div class="left">
+          <a href="http://github.com/abcsds/mercutio">Available on <img src="{{ url_for('static', filename='img/gh-32px.png') }}" alt="Github" /></a>
+        </div>
+        <div class="right">
+          &lt;&#47;&gt; by <a href="https://github.com/abcsds">Alberto Barradas.</a>
+        </div>
+      </div>
+    </div><!-- .page-wrapper  -->
   </body>
 </html>

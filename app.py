@@ -85,7 +85,7 @@ def score(data):
                 for i in range(len(tweetScore)):
                     tweetScore[i] += mainDict[word][i]
         if tweetScore:
-            return tweetScore
+            return tweetScore #, tweet[u'user'][u'screen_name'], tweet[u'text']
     except: # If there is any error while reading the json, skip
         pass
 
@@ -157,6 +157,7 @@ def threadStream(word):
     '''Change the term being looked up'''
     global term
     term = word[u'data']
+    # print "Looking up term:", word[u'data']
 
 @socketio.on('connect')
 def connect():

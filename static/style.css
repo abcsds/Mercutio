@@ -1,0 +1,174 @@
+html, body {
+  margin: 0;
+  background-color: #2D2D29;
+  color: #eee;
+  font-size: 18px;
+}
+.page-wrapper {
+  font-family:'Roboto';
+}
+.header {
+  width: auto;
+}
+.header h1 {
+  display: block;
+  margin: auto;
+  text-align: center;
+  font-size: 48px;
+  font-family: Verdana, sans-serif;
+  color: #89A2A2;
+}
+.header h1 small {
+  display: block;
+  margin: auto;
+  text-align: center;
+  font-size: 18px;
+  color: #3CA2A2;
+}
+.header p {
+  display: block;
+  margin: auto;
+  max-width: 600px;
+  text-align: justify;
+  color: #AAA;
+
+}
+#viz{
+  display: block;
+  margin: auto;
+  align-items: center;
+  justify-content: center;
+}
+#viz svg {
+  display: block;
+  margin: auto;
+  /*fill: #2D2D29;*/
+}
+.search {
+  position:relative;
+  margin-bottom: 10px;
+}
+.search input {
+  font-size:18px;
+  padding:10px 10px 10px 5px;
+  display:block;
+  width:auto;
+  border:none;
+  border-bottom:2px solid #AAA;
+}
+.search input:focus {
+  outline:none;
+}
+.search label {
+  color:#999;
+  font-size:18px;
+  font-weight:normal;
+  position:absolute;
+  pointer-events:none;
+  left:5px;
+  top:10px;
+  transition:0.2s ease all;
+  -moz-transition:0.2s ease all;
+  -webkit-transition:0.2s ease all;
+}
+.search input:focus ~ label, .search input:valid ~ label {
+  top:-20px;
+  font-size:14px;
+  color:#5264AE;
+}
+.search .bar {
+  position:relative;
+  display:block;
+  width:100%;
+}
+.search .bar:before, .search .bar:after {
+  content:'';
+  height:3px;
+  width:0;
+  bottom:1px;
+  position:absolute;
+  background:#5264AE;
+  transition:0.2s ease all;
+  -moz-transition:0.2s ease all;
+  -webkit-transition:0.2s ease all;
+}
+.search .bar:before {
+  left:50%;
+}
+.search .bar:after {
+  left:50%;
+}
+.search input:focus ~ .bar:before, .search input:focus ~ .bar:after {
+  width:50%;
+}
+.search .highlight {
+  position:absolute;
+  height:60%;
+  width:100px;
+  top:25%;
+  left:0;
+  pointer-events:none;
+  opacity:0.5;
+}
+.search input:focus ~ .highlight {
+  -webkit-animation:inputHighlighter 0.3s ease;
+  -moz-animation:inputHighlighter 0.3s ease;
+  animation:inputHighlighter 0.3s ease;
+}
+button {
+  background-color: #3B5998;
+  margin: 0;
+  padding: 0;
+  color: #eee
+}
+input[type="checkbox"] {
+  display: inline-block;
+}
+.checks {
+  width: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #AAA;
+}
+.footer {
+  display: block;
+  margin: auto;
+  color: #AAA;
+}
+.footer a {
+  color: #999;
+}
+.footer a:hover {
+  color: #3CA2A2;
+}
+.footer a:visited {
+  color: #3B5998;
+}
+.footer a img {
+  max-height: 18px;
+}
+.right {
+  display: inline-block;
+  width: 37%;
+  text-align: right;
+  padding-right: 13%;
+}
+.left {
+  display: inline-block;
+  width: 37%;
+  text-align: left;
+  padding-left: 12%;
+}
+@-webkit-keyframes inputHighlighter {
+from { background:#5264AE; }
+  to { width:0; background:transparent; }
+}
+@-moz-keyframes inputHighlighter {
+  from { background:#5264AE; }
+  to { width:0; background:transparent; }
+}
+@keyframes inputHighlighter {
+from { background:#5264AE; }
+  to { width:0; background:transparent; }
+}

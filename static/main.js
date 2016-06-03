@@ -3,6 +3,17 @@ window.onload = function(){
   var socket = io.connect('http://' + document.domain + ':' + location.port);
   var term = '';
   var mainVolume = 1;
+  var vizData = {}
+  var vizDataTest = [{'data': {
+    'anger': 5,
+    'anticipation': 5,
+    'disgust': 5,
+    'fear': 5,
+    'joy': 5,
+    'sadness': 5,
+    'surprise': 5,
+    'trust': 5,
+  }}];
 
   var sampler = new Tone.Sampler({
     "Key" : "./static/samples/key.wav",
@@ -59,52 +70,91 @@ window.onload = function(){
       console.log("DEBUG: Conected to server socket");
   });
 
-  termTrigger = document.getElementById("termTrigger");
-  termData = document.getElementById("termData");
-  termTrigger.onclick = function () {
-    term = termData.value;
-    console.log('DEBUG: Clicked connect button, emitting term: ' + term );
-    socket.emit('term', {data: term});
-  }
+// Change term on enter insde text input
+  document.getElementById("termData")
+      .addEventListener("keyup", function(event) {
+      event.preventDefault();
+      if (event.keyCode == 13) {
+        term = termData.value;
+        socket.emit('term', {data: term});
+      }
+  });
 
   socket.on('vector', function(data) {
     var sum = data.reduce(function(previousValue, currentValue, currentIndex, array) {
       return previousValue + currentValue;
     });
+
+    vizData = [{'data': {
+      'joy': data[4],
+      'trust': data[7],
+      'fear': data[3],
+      'surprise': data[6],
+      'sadness': data[5],
+      'disgust': data[2],
+      'anger': data[0],
+      'anticipation': data[1],
+    }}];
+
+    var chart = radialBarChart()
+      .barHeight(250)
+      .domain([0,5])
+      .barColors(['#EBC527','#79BF2A','#007C37','#1781AA','#296CAB','#7D4CA1','#DB1245','#E66F11']);
+
+    d3.select('#viz')
+      .datum(vizData)
+      .call(chart);
+
     // [ 'anger',
-    if (data[1] >= 4) { sampler.triggerAttack("a.1"); }
-    else if (data[1] >= 3) { sampler.triggerAttack("c.3"); }
-    else if (data[1] >= 2) { sampler.triggerAttack("b.1"); }
+    if (document.getElementById("anger").checked){
+      if (data[1] >= 4) { sampler.triggerAttack("a.1"); }
+      else if (data[1] >= 3) { sampler.triggerAttack("c.3"); }
+      else if (data[1] >= 2) { sampler.triggerAttack("b.1"); }
+    }
     //   'anticipation',
-    if (data[2] >= 4) { sampler.triggerAttack("c.1"); }
-    else if (data[2] >= 3) { sampler.triggerAttack("c.4"); }
-    else if (data[2] >= 2) { sampler.triggerAttack("b.2"); }
+    if (document.getElementById("anticipation").checked){
+      if (data[2] >= 4) { sampler.triggerAttack("c.1"); }
+      else if (data[2] >= 3) { sampler.triggerAttack("c.4"); }
+      else if (data[2] >= 2) { sampler.triggerAttack("b.2"); }
+    }
     //   'disgust',
-    if (data[3] >= 4) { sampler.triggerAttack("a.2"); }
-    else if (data[3] >= 3) { sampler.triggerAttack("c.5"); }
-    else if (data[3] >= 2) { sampler.triggerAttack("b.3"); }
+    if (document.getElementById("disgust").checked){
+      if (data[3] >= 4) { sampler.triggerAttack("a.2"); }
+      else if (data[3] >= 3) { sampler.triggerAttack("c.5"); }
+      else if (data[3] >= 2) { sampler.triggerAttack("b.3"); }
+    }
     //   'fear',
-    if (data[4] >= 4) { sampler.triggerAttack("a.3"); }
-    else if (data[4] >= 3) { sampler.triggerAttack("c.6"); }
-    else if (data[4] >= 2) { sampler.triggerAttack("b.4"); }
+    if (document.getElementById("fear").checked){
+      if (data[4] >= 4) { sampler.triggerAttack("a.3"); }
+      else if (data[4] >= 3) { sampler.triggerAttack("c.6"); }
+      else if (data[4] >= 2) { sampler.triggerAttack("b.4"); }
+    }
     //   'joy',
-    if (data[5] >= 4) { sampler.triggerAttack("a.4"); }
-    else if (data[5] >= 3) { sampler.triggerAttack("c.7"); }
-    else if (data[5] >= 2) { sampler.triggerAttack("b.5"); }
+    if (document.getElementById("joy").checked){
+      if (data[5] >= 4) { sampler.triggerAttack("a.4"); }
+      else if (data[5] >= 3) { sampler.triggerAttack("c.7"); }
+      else if (data[5] >= 2) { sampler.triggerAttack("b.5"); }
+    }
     //   'negative',
     //   'positive',
     //   'sadness',
-    if (data[8] >= 4) { sampler.triggerAttack("a.5"); }
-    else if (data[8] >= 3) { sampler.triggerAttack("c.8"); }
-    else if (data[8] >= 2) { sampler.triggerAttack("b.6"); }
+    if (document.getElementById("sadness").checked){
+      if (data[8] >= 4) { sampler.triggerAttack("a.5"); }
+      else if (data[8] >= 3) { sampler.triggerAttack("c.8"); }
+      else if (data[8] >= 2) { sampler.triggerAttack("b.6"); }
+    }
     //   'surprise',
-    if (data[9] >= 4) { sampler.triggerAttack("c.2"); }
-    else if (data[9] >= 3) { sampler.triggerAttack("c.9"); }
-    else if (data[9] >= 2) { sampler.triggerAttack("b.7"); }
+    if (document.getElementById("surprise").checked){
+      if (data[9] >= 4) { sampler.triggerAttack("c.2"); }
+      else if (data[9] >= 3) { sampler.triggerAttack("c.9"); }
+      else if (data[9] >= 2) { sampler.triggerAttack("b.7"); }
+    }
     //   'trust']
-    if (data[10] >= 4) { sampler.triggerAttack("a.6"); }
-    else if (data[10] >= 3) { sampler.triggerAttack("c.10"); }
-    else if (data[10] >= 2) { sampler.triggerAttack("b.8"); }
+    if (document.getElementById("trust").checked){
+      if (data[10] >= 4) { sampler.triggerAttack("a.6"); }
+      else if (data[10] >= 3) { sampler.triggerAttack("c.10"); }
+      else if (data[10] >= 2) { sampler.triggerAttack("b.8"); }
+    }
 
     // Intensity
     if (sum >= 20) { sampler.triggerAttack("Key"); }
