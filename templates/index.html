@@ -1,8 +1,9 @@
 <!DOCTYPE html>
-<html>
+<html itemscope itemtype="http://schema.org/Other">
   <head>
     <meta charset="utf-8">
-    <title>Example</title>
+    <title>Mercutio</title>
+    <meta name="description" content="Listen to the emotions on twitter" />
     <!-- Tone.js -->
     <script type="text/javascript" src="http://cdn.tonejs.org/latest/Tone.min.js"></script>
     <!-- Socket.io -->
@@ -12,6 +13,28 @@
     <script type="text/javascript" src="{{ url_for('static', filename='radial.js') }}" charset="utf-8"></script>
     <script type="text/javascript" src="{{ url_for('static', filename='main.js') }}"></script>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" media="screen" charset="utf-8">
+
+    <!-- Social -->
+    <meta itemprop="name" content="Mercutio">
+    <meta itemprop="description" content="Listen to the emotions on twitter">
+    <!-- <meta itemprop="image" content=""> TODO -->
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:site" content="@abcsds" />
+    <meta name="twitter:creator" content="@abcsds">
+    <meta name="twitter:title" content="Mercutio" />
+    <meta name="twitter:description" content="Listen to the emotions on twitter" />
+    <!-- <meta name="twitter:image" content="" /> TODO -->
+    <!-- Open Graph -->
+    <meta property="og:title" content="Mercutio" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="http://mercutio.albertobarradas.com/" />
+    <!-- <meta property="og:image" content="" /> TODO -->
+    <meta property="og:description" content="Listen to the emotions on twitter" />
+    <meta property="og:site_name" content="Mercutio" />
+    <!-- Share buttons -->
+    <script type="text/javascript" src="http://w.sharethis.com/button/buttons.js"></script>
+    <script type="text/javascript">stLight.options({publisher: "e08a23be-9b46-4a3a-b3a3-0d260a7c6c26", doNotHash: false, doNotCopy: false, hashAddressBar: false});</script>
   </head>
   <body>
     <div class="page-wrapper">
@@ -21,19 +44,26 @@
           Mercutio
           <small>Listen to emotions on twitter</small>
         </h1>
+        <p class="social">
+          <span class='st_facebook_large' displayText='Facebook'></span>
+          <span class='st_twitter_large' displayText='Tweet'></span>
+          <span class='st_googleplus_large' displayText='Google +'></span>
+          <span class='st_linkedin_large' displayText='LinkedIn'></span>
+          <span class='st_tumblr_large' displayText='Tumblr'></span>
+          <span class='st_stumbleupon_large' displayText='StumbleUpon'></span>
+        </p>
         <p>
           This is a live stream from twitter. It's being analized through an
           algorithm that exctracts emotions from every tweet and converts it to
           sound. What you are now hearing is a real time representation of the
-          emotions on twitter. A simple vizualization is included to help
-          understand what you are hearing to, but we sugest you close your eyes
-          and listen to the emotions all over the world.
+          emotions on twitter. You can uncheck emotions on the checkboxes to
+          listen to only some at the same time. A simple vizualization is
+          included to help understand what you are hearing to, but we sugest
+          you close your eyes and listen to the emotions all over the world.
         </p>
       </div>
 
-      <div id="viz">
-
-      </div>
+      <div id="viz"></div>
 
       <!-- <div class="search">
         <input type="text" name="termData" id="termData">
@@ -93,5 +123,15 @@
         </div>
       </div>
     </div><!-- .page-wrapper  -->
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-77416753-3', 'auto');
+      ga('send', 'pageview');
+
+    </script>
   </body>
 </html>
