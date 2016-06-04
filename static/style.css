@@ -20,14 +20,14 @@ html, body {
 }
 .header h1 small {
   display: block;
-  margin: auto;
+  margin: 10px auto;
   text-align: center;
   font-size: 18px;
   color: #3CA2A2;
 }
 .header p {
   display: block;
-  margin: auto;
+  margin: 10px auto;
   max-width: 600px;
   text-align: justify;
   color: #AAA;
@@ -42,7 +42,7 @@ html, body {
 #viz svg {
   display: block;
   margin: auto;
-  /*fill: #2D2D29;*/
+  fill: #AAA;
 }
 .search {
   position:relative;
@@ -127,13 +127,14 @@ input[type="checkbox"] {
 .checks {
   width: auto;
   display: flex;
+  margin: 30px 30px;
   align-items: center;
   justify-content: center;
   color: #AAA;
 }
 .footer {
   display: block;
-  margin: auto;
+  margin: 30px 30px;
   color: #AAA;
 }
 .footer a {

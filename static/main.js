@@ -71,14 +71,14 @@ window.onload = function(){
   });
 
 // Change term on enter insde text input
-  document.getElementById("termData")
-      .addEventListener("keyup", function(event) {
-      event.preventDefault();
-      if (event.keyCode == 13) {
-        term = termData.value;
-        socket.emit('term', {data: term});
-      }
-  });
+  // document.getElementById("termData")
+  //     .addEventListener("keyup", function(event) {
+  //     event.preventDefault();
+  //     if (event.keyCode == 13) {
+  //       term = termData.value;
+  //       socket.emit('term', {data: term});
+  //     }
+  // });
 
   socket.on('vector', function(data) {
     var sum = data.reduce(function(previousValue, currentValue, currentIndex, array) {
@@ -98,7 +98,7 @@ window.onload = function(){
 
     var chart = radialBarChart()
       .barHeight(250)
-      .domain([0,5])
+      .domain([0,3])
       .barColors(['#EBC527','#79BF2A','#007C37','#1781AA','#296CAB','#7D4CA1','#DB1245','#E66F11']);
 
     d3.select('#viz')
