@@ -16,7 +16,7 @@ html, body {
   text-align: center;
   font-size: 48px;
   font-family: Verdana, sans-serif;
-  color: #89A2A2;
+  color: #81A3A3;
 }
 .header h1 small {
   display: block;
@@ -29,6 +29,35 @@ html, body {
   display: block;
   margin: 10px auto;
   text-align: center;
+  color: #EEEEEE;
+}
+.header .social a {
+  color: #EEEEEE;
+  text-decoration: none;
+}
+.header .social a:visited {
+  color: #EEEEEE;
+  text-decoration: none;
+}
+.header .social .fa {
+  -webkit-transition: all 0.5s ease;
+  -o-transition: all 0.5s ease;
+  transition: all 0.5s ease;
+}
+.header .social .fb:hover {
+  color: #3B5998;
+}
+.header .social .tw:hover {
+  color: #55ACEE;
+}
+.header .social .gp:hover {
+  color: #DD4B39;
+}
+.header .social .li:hover {
+  color: #0077B5;
+}
+.header .social .su:hover {
+  color: #EB4924;
 }
 .header p {
   display: block;
@@ -79,7 +108,7 @@ html, body {
 .search input:focus ~ label, .search input:valid ~ label {
   top:-20px;
   font-size:14px;
-  color:#5264AE;
+  color:#3CA2A2;
 }
 .search .bar {
   position:relative;
@@ -92,7 +121,7 @@ html, body {
   width:0;
   bottom:1px;
   position:absolute;
-  background:#5264AE;
+  background:#3CA2A2;
   transition:0.2s ease all;
   -moz-transition:0.2s ease all;
   -webkit-transition:0.2s ease all;
@@ -121,7 +150,7 @@ html, body {
   animation:inputHighlighter 0.3s ease;
 }
 button {
-  background-color: #3B5998;
+  background-color: #3CA2A2;
   margin: 0;
   padding: 0;
   color: #eee
@@ -167,14 +196,14 @@ input[type="checkbox"] {
   padding-left: 12%;
 }
 @-webkit-keyframes inputHighlighter {
-from { background:#5264AE; }
+from { background:#3CA2A2; }
   to { width:0; background:transparent; }
 }
 @-moz-keyframes inputHighlighter {
-  from { background:#5264AE; }
+  from { background:#3CA2A2; }
   to { width:0; background:transparent; }
 }
 @keyframes inputHighlighter {
-from { background:#5264AE; }
+from { background:#3CA2A2; }
   to { width:0; background:transparent; }
 }

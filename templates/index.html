@@ -4,12 +4,16 @@
     <meta charset="utf-8">
     <title>Mercutio</title>
     <meta name="description" content="Listen to the emotions on twitter" />
+    <link rel="shortcut icon" href="{{ url_for('static', filename='img/favicon.ico') }}">
     <!-- Tone.js -->
     <script type="text/javascript" src="http://cdn.tonejs.org/latest/Tone.min.js"></script>
     <!-- Socket.io -->
     <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/socket.io/1.3.6/socket.io.min.js"></script>
     <!-- D3.js -->
     <script type="text/javascript" src="https://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+    <!-- Font Awesome -->
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
+    <!-- <script type="text/javascript" src="{{ url_for('static', filename='font-awesome/css/font-awesome.min.css')}}" charset="utf-8"></script> -->
     <script type="text/javascript" src="{{ url_for('static', filename='radial.js') }}" charset="utf-8"></script>
     <script type="text/javascript" src="{{ url_for('static', filename='main.js') }}"></script>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" media="screen" charset="utf-8">
@@ -17,24 +21,21 @@
     <!-- Social -->
     <meta itemprop="name" content="Mercutio">
     <meta itemprop="description" content="Listen to the emotions on twitter">
-    <!-- <meta itemprop="image" content=""> TODO -->
+    <meta itemprop="image" content="{{ url_for('static', filename='img/logo.png') }}">
     <!-- Twitter -->
     <meta name="twitter:card" content="summary" />
     <meta name="twitter:site" content="@abcsds" />
     <meta name="twitter:creator" content="@abcsds">
     <meta name="twitter:title" content="Mercutio" />
     <meta name="twitter:description" content="Listen to the emotions on twitter" />
-    <!-- <meta name="twitter:image" content="" /> TODO -->
+    <meta name="twitter:image" content="{{ url_for('static', filename='img/logo.png') }}" />
     <!-- Open Graph -->
     <meta property="og:title" content="Mercutio" />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="http://mercutio.albertobarradas.com/" />
-    <!-- <meta property="og:image" content="" /> TODO -->
+    <meta property="og:image" content="{{ url_for('static', filename='img/logo.png') }}" />
     <meta property="og:description" content="Listen to the emotions on twitter" />
     <meta property="og:site_name" content="Mercutio" />
-    <!-- Share buttons -->
-    <script type="text/javascript" src="http://w.sharethis.com/button/buttons.js"></script>
-    <script type="text/javascript">stLight.options({publisher: "e08a23be-9b46-4a3a-b3a3-0d260a7c6c26", doNotHash: false, doNotCopy: false, hashAddressBar: false});</script>
   </head>
   <body>
     <div class="page-wrapper">
@@ -42,15 +43,24 @@
       <div class="header">
         <h1>
           Mercutio
-          <small>Listen to emotions on twitter</small>
+          <small>Listen to the emotions on twitter</small>
         </h1>
         <p class="social">
-          <span class='st_facebook_large' displayText='Facebook'></span>
-          <span class='st_twitter_large' displayText='Tweet'></span>
-          <span class='st_googleplus_large' displayText='Google +'></span>
-          <span class='st_linkedin_large' displayText='LinkedIn'></span>
-          <span class='st_tumblr_large' displayText='Tumblr'></span>
-          <span class='st_stumbleupon_large' displayText='StumbleUpon'></span>
+          <a href="https://www.facebook.com/sharer/sharer.php?u=mercutio.albertobarradas.com">
+            <i class="fa fa-2x fa-facebook-square fb" aria-hidden="true"></i>
+          </a>
+          <a href="Listen%20to%20the%20emotions%20on%20twitter%3A%20http%3A%2F%2Fmercutio.albertobarradas.com%20%40abcsds">
+            <i class="fa fa-2x fa-twitter-square tw" aria-hidden="true"></i>
+          </a>
+          <a href="https://plus.google.com/share?url=http%3A//mercutio.albertobarradas.com">
+            <i class="fa fa-2x fa-google-plus-official gp" aria-hidden="true"></i>
+          </a>
+          <a href="https://www.linkedin.com/shareArticle?mini=true&url=http%3A//mercutio.albertobarradas.com&title=Mercutio&summary=Listen%20to%20the%20emotions%20on%20twitter.">
+            <i class="fa fa-2x fa-linkedin-square li" aria-hidden="true"></i>
+          </a>
+          <a href="http://www.stumbleupon.com/submit?url=http://mercutio.albertobarradas.com&title=Mercutio">
+            <i class="fa fa-2x fa-stumbleupon-circle su" aria-hidden="true"></i>
+          </a>
         </p>
         <p>
           This is a live stream from twitter. It's being analized through an
@@ -116,7 +126,7 @@
       </div><!-- .checks  -->
       <div class="footer">
         <div class="left">
-          <a href="http://github.com/abcsds/mercutio">Available on <img src="{{ url_for('static', filename='img/gh-32px.png') }}" alt="Github" /></a>
+          <a href="http://github.com/abcsds/mercutio">Available on <i class="fa fa-github" aria-hidden="true"></i></a>
         </div>
         <div class="right">
           &lt;&#47;&gt; by <a href="https://github.com/abcsds">Alberto Barradas.</a>
