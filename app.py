@@ -22,7 +22,7 @@ httpMethod   = 'GET'
 httpHandler  = urllib.HTTPHandler(debuglevel=0)
 httpsHandler = urllib.HTTPSHandler(debuglevel=0)
 def twitterreq(url, method, parameters):
-    ''''Request handler for twitter API'''
+    '''Request handler for twitter API'''
     req = oauth.Request.from_consumer_and_token(oauthConsumer,
                                                 token=oauthToken,
                                                 http_method=httpMethod,
