@@ -122,7 +122,7 @@ from flask_socketio import SocketIO, emit, disconnect
 from threading import Thread
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = myKeys.secretKey
+app.config['SECRET_KEY'] = os.environ['SECRET_KEY']
 socketio = SocketIO(app, async_mode=asyncMode)
 streamThread = None
 term = ''
