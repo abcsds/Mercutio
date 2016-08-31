@@ -4,13 +4,12 @@ import oauth2 as oauth
 import urllib2 as urllib
 import json
 from csv import DictReader
-import myKeys # Personal keys
+import os # Personal keys
 
-# Import API keys from separate file
-apiKey = myKeys.apiKey
-apiSecret = myKeys.apiSecret
-accessTokenKey = myKeys.accessTokenKey
-accessTokenSecret = myKeys.accessTokenSecret
+apiKey = os.environ['apiKey']
+apiSecret = os.environ['apiSecret']
+accessTokenKey = os.environ['accessTokenKey']
+accessTokenSecret = os.environ['accessTokenSecret']
 
 # Create oauth tokens and signature
 oauthToken    = oauth.Token(key=accessTokenKey, secret=accessTokenSecret)
