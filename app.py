@@ -4,12 +4,13 @@ import oauth2 as oauth
 import urllib2 as urllib
 import json
 from csv import DictReader
-import os # Personal keys
+import myKeys # Personal keys
 
-apiKey = os.environ['apiKey']
-apiSecret = os.environ['apiSecret']
-accessTokenKey = os.environ['accessTokenKey']
-accessTokenSecret = os.environ['accessTokenSecret']
+# Import API keys from separate file
+apiKey = myKeys.apiKey
+apiSecret = myKeys.apiSecret
+accessTokenKey = myKeys.accessTokenKey
+accessTokenSecret = myKeys.accessTokenSecret
 
 # Create oauth tokens and signature
 oauthToken    = oauth.Token(key=accessTokenKey, secret=accessTokenSecret)
@@ -21,7 +22,7 @@ httpMethod   = 'GET'
 httpHandler  = urllib.HTTPHandler(debuglevel=0)
 httpsHandler = urllib.HTTPSHandler(debuglevel=0)
 def twitterreq(url, method, parameters):
-    '''Request handler for twitter API'''
+    ''''Request handler for twitter API'''
     req = oauth.Request.from_consumer_and_token(oauthConsumer,
                                                 token=oauthToken,
                                                 http_method=httpMethod,
@@ -122,7 +123,7 @@ from flask_socketio import SocketIO, emit, disconnect
 from threading import Thread
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = os.environ['SECRET_KEY']
+app.config['SECRET_KEY'] = myKeys.secretKey
 socketio = SocketIO(app, async_mode=asyncMode)
 streamThread = None
 term = ''
