@@ -130,7 +130,7 @@ term = ''
 
 def backgroundThread():
     '''Constantly emiting vectors'''
-    global term
+    global term, streamThread
     try:
         for line in fetch(term):
             vector = score(line)
@@ -141,7 +141,7 @@ def backgroundThread():
             socketio.emit('vector', vector, namespace='/', broadcast=True)
     except:
         print "ERROR: Stream stopped"
-        raise
+        streamThread = None
 
 @app.route("/")
 def index():
