@@ -141,7 +141,9 @@ def backgroundThread():
             socketio.emit('vector', vector, namespace='/', broadcast=True)
     except:
         print "ERROR: Stream stopped"
+        del streamThread
         streamThread = None
+        # TODO: tell the client what happened.
 
 @app.route("/")
 def index():
