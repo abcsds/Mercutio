@@ -4,13 +4,13 @@ import oauth2 as oauth
 import urllib2 as urllib
 import json
 from csv import DictReader
-import myKeys # Personal keys
+import os # Personal keys
 
 # Import API keys from separate file
-apiKey = myKeys.apiKey
-apiSecret = myKeys.apiSecret
-accessTokenKey = myKeys.accessTokenKey
-accessTokenSecret = myKeys.accessTokenSecret
+apiKey = os.environ['API_KEY']
+apiSecret = os.environ['API_SECRET']
+accessTokenKey = os.environ['ACCESS_TOKENKEY']
+accessTokenSecret = os.environ['ACCESS_TOKENSECRET']
 
 # Create oauth tokens and signature
 oauthToken    = oauth.Token(key=accessTokenKey, secret=accessTokenSecret)
@@ -123,7 +123,7 @@ from flask_socketio import SocketIO, emit, disconnect
 from threading import Thread
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = myKeys.secretKey
+app.config['SECRET_KEY'] = os.environ['SECRET_KEY']
 socketio = SocketIO(app, async_mode=asyncMode)
 streamThread = None
 term = ''
