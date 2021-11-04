@@ -1,5 +1,5 @@
 eventlet==0.18.4
-Flask==0.10.1
+Flask==1.0
 Flask-SocketIO==2.2
 httplib2==0.9.2
 oauth2==1.9.0.post1
